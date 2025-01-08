@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>${groupId}</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>${version}</version>
+    <packaging>war</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        #if( $jakartaVersion == "11.0.0" )
+        <maven.compiler.release>17</maven.compiler.release>
+        #elseif( $jakartaVersion == "10.0.0" )
+        <maven.compiler.release>11</maven.compiler.release>
+        #end
+        <junit.version>5.11.4</junit.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            #if( $jakartaProfile == "core" )
+            <artifactId>jakarta.jakartaee-core-api</artifactId>
+            #elseif( $jakartaProfile == "web" )
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            #elseif( $jakartaProfile == "full" )
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            #end
+            #if( $jakartaVersion == "10.0.0" )
+            <version>10.0.0</version>
+            #elseif( $jakartaVersion == "11.0.0" )
+            <version>11.0.0-M4</version>
+            #end
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            #if( $jakartaVersion == "10.0.0" )
+            <version>6.1</version>
+            #elseif( $jakartaVersion == "11.0.0" )
+            <version>7.0</version>
+            #end
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+        <!-- TEST -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
