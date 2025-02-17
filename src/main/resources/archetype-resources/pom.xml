@@ -31,7 +31,11 @@
             #if( $jakartaVersion == "10.0.0" )
             <version>10.0.0</version>
             #elseif( $jakartaVersion == "11.0.0" )
+            #if( $jakartaProfile == "core" )
+            <version>11.0.0</version>
+            #else
             <version>11.0.0-M4</version>
+            #end
             #end
             <scope>provided</scope>
         </dependency>

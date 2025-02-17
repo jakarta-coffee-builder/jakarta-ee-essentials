@@ -25,7 +25,8 @@ under the License.
                       name="${artifactId}">
 
     <fileSets>
-        <fileSet filtered="false" packaged="false">
+        <fileSet filtered="true" packaged="false">
+            <directory>.</directory>
             <includes>
                 <include>mvnw</include>
                 <include>mvnw.cmd</include>
