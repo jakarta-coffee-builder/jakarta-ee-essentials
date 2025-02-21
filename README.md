@@ -23,3 +23,15 @@ Values for `jakartaProfile`:
 Values for `jakartaVersion`:
 - 10.0.0
 - 11.0.0
+
+
+> **Note to Build**:
+> To install this archetype locally, run the command:
+> ```shell
+> mvn clean install`
+> ```
+> 
+> To install this archetype into the Maven repository, run:
+> ```shell
+> mvn deploy -P release
+> ```
