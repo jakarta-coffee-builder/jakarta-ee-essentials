@@ -25,13 +25,17 @@ under the License.
                       name="${artifactId}">
 
     <fileSets>
-        <fileSet filtered="true" packaged="false">
-            <directory>.</directory>
+        <fileSet filtered="false" packaged="false">
+            <directory/>
             <includes>
                 <include>mvnw</include>
                 <include>mvnw.cmd</include>
+                <include>.gitignore</include>
             </includes>
         </fileSet>
+        <!--<fileSet filtered="false" packaged="false">
+            <directory>.mvn</directory>
+        </fileSet>-->
         <fileSet filtered="false" packaged="false">
             <directory>.mvn/wrapper</directory>
             <includes>
@@ -40,12 +44,22 @@ under the License.
         </fileSet>
         <fileSet filtered="true" packaged="true">
             <directory>src/main/java</directory>
+            #if( $module == "ejb" )
+            <excludes>
+                <exclude>**/*Resource.java</exclude>
+            </excludes>
+            #end
+            #if( $module == "web" )
+            <includes>
+                <include>**/*Resource.java</include>
+            </includes>
+            #end
         </fileSet>
         <fileSet filtered="true" packaged="false">
             <directory>src/main/resources</directory>
         </fileSet>
         <fileSet filtered="true" packaged="false">
-            <directory>src/main/webapp</directory>
+            <directory>#if( $module == "web" )src/main/webapp#end</directory>
         </fileSet>
         <fileSet filtered="true" packaged="true">
             <directory>src/test/java</directory>
@@ -65,6 +79,14 @@ under the License.
             <type>string</type>
             <required>true</required>
             <expression>^(10.0.0|11.0.0)$</expression>
+        </requiredProperty>
+        <requiredProperty key="module">
+            <defaultValue>web</defaultValue>
+            <type>string</type>
+            <description>Module</description>
+            <type>string</type>
+            <required>true</required>
+            <expression>^(web|ejb)$</expression>
         </requiredProperty>
     </requiredProperties>
 </archetype-descriptor>

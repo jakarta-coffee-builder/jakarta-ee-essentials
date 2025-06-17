@@ -6,7 +6,7 @@
 
     <groupId>com.apuntesdejava</groupId>
     <artifactId>jakarta-ee-essentials</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>maven-archetype</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -15,7 +15,7 @@
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
     <developers>
