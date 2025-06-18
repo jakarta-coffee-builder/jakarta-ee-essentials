@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to ${artifactId}</title>
+</head>
+<body>
+<h1>Hello from ${artifactId}!</h1>
+Project Info:
+<ul>
+    <li>GroupId: ${groupId}</li>
+    <li>ArtifactId: ${artifactId}</li>
+    <li>Version: ${version}</li>
+    <li>Package: ${package}</li>
+</ul>
+
+#set($processedApiBasePath = $apiBasePath)##
+#if($apiBasePath && $apiBasePath.startsWith("/"))##
+#set($processedApiBasePath = $apiBasePath.substring(1))##
+#end##
+
+<p>URL API example: <a href="${processedApiBasePath}/hello">hello</a></p>
+</body>
+</html>

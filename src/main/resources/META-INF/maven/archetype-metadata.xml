@@ -33,9 +33,6 @@ under the License.
                 <include>.gitignore</include>
             </includes>
         </fileSet>
-        <!--<fileSet filtered="false" packaged="false">
-            <directory>.mvn</directory>
-        </fileSet>-->
         <fileSet filtered="false" packaged="false">
             <directory>.mvn/wrapper</directory>
             <includes>
@@ -44,23 +41,27 @@ under the License.
         </fileSet>
         <fileSet filtered="true" packaged="true">
             <directory>src/main/java</directory>
-            #if( $module == "ejb" )
+            <!--
+            #if( $jakartaModule == "ejb" )
             <excludes>
                 <exclude>**/*Resource.java</exclude>
             </excludes>
             #end
-            #if( $module == "web" )
+            #if( $jakartaModule == "web" )
             <includes>
                 <include>**/*Resource.java</include>
             </includes>
             #end
+            -->
         </fileSet>
         <fileSet filtered="true" packaged="false">
             <directory>src/main/resources</directory>
         </fileSet>
+        <!-- #if( $jakartaModule == "web" ) -->
         <fileSet filtered="true" packaged="false">
-            <directory>#if( $module == "web" )src/main/webapp#end</directory>
+            <directory>src/main/webapp</directory>
         </fileSet>
+        <!-- #end -->
         <fileSet filtered="true" packaged="true">
             <directory>src/test/java</directory>
         </fileSet>
@@ -80,13 +81,19 @@ under the License.
             <required>true</required>
             <expression>^(10.0.0|11.0.0)$</expression>
         </requiredProperty>
-        <requiredProperty key="module">
+        <requiredProperty key="jakartaModule">
             <defaultValue>web</defaultValue>
             <type>string</type>
             <description>Module</description>
-            <type>string</type>
             <required>true</required>
             <expression>^(web|ejb)$</expression>
         </requiredProperty>
+        <requiredProperty key="apiBasePath">
+            <defaultValue>/api</defaultValue>
+            <description>Base path for the JAX-RS application (e.g., /api, /rest)</description>
+            <type>string</type>
+            <required>true</required>
+        </requiredProperty>
+
     </requiredProperties>
 </archetype-descriptor>

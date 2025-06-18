@@ -10,11 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        #if( $jakartaVersion == "11.0.0" )
-        <maven.compiler.release>17</maven.compiler.release>
-        #elseif( $jakartaVersion == "10.0.0" )
-        <maven.compiler.release>11</maven.compiler.release>
-        #end
+        <maven.compiler.release>21</maven.compiler.release>
         <junit.version>5.13.1</junit.version>
     </properties>
 
@@ -40,18 +36,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.eclipse.microprofile</groupId>
-            <artifactId>microprofile</artifactId>
-            #if( $jakartaVersion == "10.0.0" )
-            <version>6.1</version>
-            #elseif( $jakartaVersion == "11.0.0" )
-            <version>7.0</version>
-            #end
-            <scope>provided</scope>
-            <type>pom</type>
-        </dependency>
-
         #if( $jakartaProfile == "core" )
         <dependency>
             <groupId>jakarta.inject</groupId>
@@ -75,6 +59,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             #if( $module == "web" )
             <plugin>
