@@ -10,12 +10,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        #if( $jakartaVersion == "11.0.0" )
-        <maven.compiler.release>17</maven.compiler.release>
-        #elseif( $jakartaVersion == "10.0.0" )
-        <maven.compiler.release>11</maven.compiler.release>
-        #end
-        <junit.version>5.11.4</junit.version>
+        <maven.compiler.release>21</maven.compiler.release>
+        <junit.version>5.13.1</junit.version>
     </properties>
 
     <dependencies>
@@ -34,22 +30,10 @@
             #if( $jakartaProfile == "core" )
             <version>11.0.0</version>
             #else
-            <version>11.0.0-M4</version>
+            <version>11.0.0</version>
             #end
             #end
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.microprofile</groupId>
-            <artifactId>microprofile</artifactId>
-            #if( $jakartaVersion == "10.0.0" )
-            <version>6.1</version>
-            #elseif( $jakartaVersion == "11.0.0" )
-            <version>7.0</version>
-            #end
-            <scope>provided</scope>
-            <type>pom</type>
         </dependency>
 
         #if( $jakartaProfile == "core" )
@@ -75,12 +59,25 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
+            #if( $jakartaModule == "web" )
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
             </plugin>
+            #elseif( $jakartaModule == "ejb" )
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <jarName>${project.name}</jarName>
+                    <ejbVersion>4.0</ejbVersion>
+                </configuration>
+            </plugin>
+            #end
         </plugins>
     </build>
 </project>
