@@ -24,15 +24,33 @@ Values for `jakartaVersion`:
 - 10.0.0
 - 11.0.0
 
----
+## Development
 
-> **Note to Build**:
-> To install this archetype locally, run the command:
-> ```shell
-> mvn clean install
-> ```
-> 
-> To install this archetype into the Maven repository, run:
-> ```shell
-> mvn deploy -P release
-> ```
+### Local Installation
+
+To build the archetype and install it in your local Maven repository, run the following command. This will make the archetype available on your machine for generating new projects.
+
+```shell
+mvn clean install
+```
+
+### Functional Testing
+
+This project includes functional tests that verify the generated project's integrity. These tests use Docker to create an isolated environment, generate a project from the archetype, and then build that new project.
+
+**Prerequisites:**
+- Docker must be installed and running.
+
+To run the tests, execute the following command:
+
+```shell
+mvn clean verify -P docker-test
+```
+
+### Deploying
+
+To deploy a release version to the Maven repository, run:
+
+```shell
+mvn deploy -P release
+```
