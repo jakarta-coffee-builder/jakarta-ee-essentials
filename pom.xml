@@ -65,7 +65,7 @@
             <extension>
                 <groupId>org.apache.maven.archetype</groupId>
                 <artifactId>archetype-packaging</artifactId>
-                <version>3.3.1</version>
+                <version>3.4.0</version>
             </extension>
         </extensions>
         <pluginManagement>
@@ -77,20 +77,6 @@
                 <plugin>
                     <artifactId>maven-archetype-plugin</artifactId>
                     <version>3.4.0</version>
-                    <executions>
-                        <execution>
-                            <id>default-generate-sources</id>
-                            <goals>
-                                <goal>generate</goal>
-                            </goals>
-                            <configuration>
-                                <!--<archetypeCatalog>local</archetypeCatalog>-->
-                                <properties>
-                                    <resourceType>${jakartaProfile}</resourceType>
-                                </properties>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
@@ -106,7 +92,9 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-
+        <plugins>
+            <!-- Los plugins principales del build van aquí -->
+        </plugins>
     </build>
     <profiles>
         <profile>
@@ -116,7 +104,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.2.7</version>
+                        <version>3.2.8</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
