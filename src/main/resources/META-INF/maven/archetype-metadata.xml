@@ -47,32 +47,27 @@ under the License.
         </fileSet>
         <fileSet filtered="true" packaged="true">
             <directory>src/main/java</directory>
-            <!--#if( $jakartaModule == "ejb" )-->
+            <!--
+            #if( $jakartaModule == "ejb" )
             <excludes>
                 <exclude>**/*Resource.java</exclude>
             </excludes>
-            <!--#end-->
-            <!--#if( $jakartaModule == "web" )-->
+            #end
+            #if( $jakartaModule == "web" )
             <includes>
                 <include>**/*Resource.java</include>
             </includes>
-            <!--#end-->
+            #end
+            -->
         </fileSet>
         <fileSet filtered="true" packaged="false">
-            <directory>src/main/resources/META-INF</directory>
-            <includes>
-                <include>beans.xml</include>
-                <include>persistence.xml</include>
-            </includes>
+            <directory>src/main/resources</directory>
         </fileSet>
-        <!--#if( $jakartaModule == "web" )-->
+        <!-- #if( $jakartaModule == "web" ) -->
         <fileSet filtered="true" packaged="false">
             <directory>src/main/webapp</directory>
-            <includes>
-                <include>**/*</include>
-            </includes>
         </fileSet>
-        <!--#end-->
+        <!-- #end -->
         <fileSet filtered="true" packaged="true">
             <directory>src/test/java</directory>
         </fileSet>
