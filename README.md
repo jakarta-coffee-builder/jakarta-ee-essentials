@@ -6,6 +6,9 @@ This archetype allows you to create a Jakarta EE project with the essential conf
 
 To generate a new project using this archetype, run the following command in your terminal, replacing the placeholders with the desired values:
 
+
+**bash**
+
 ```shell
 mvn archetype:generate \
     -DarchetypeGroupId=com.apuntesdejava \
@@ -15,6 +18,19 @@ mvn archetype:generate \
     -DartifactId=my-jakarta-app \
     -Dversion=1.0.0
 ```
+
+**Powershell**
+
+```powershell
+mvn archetype:generate `
+    -DarchetypeGroupId="com.apuntesdejava" `
+    -DarchetypeArtifactId="jakarta-ee-essentials" `
+    -DarchetypeVersion="0.0.3-SNAPSHOT" `
+    -DgroupId="com.example" `
+    -DartifactId="my-jakarta-app" `
+    -Dversion="1.0.0"
+```
+
 
 ## Development and Deployment
 
