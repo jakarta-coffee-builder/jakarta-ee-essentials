@@ -14,9 +14,11 @@ mvn archetype:generate \
     -DarchetypeGroupId=com.apuntesdejava \
     -DarchetypeArtifactId=jakarta-ee-essentials \
     -DarchetypeVersion=0.0.3-SNAPSHOT \
+    -DjakartaProfile=core \
+    -DjakartaModule=web \
     -DgroupId=com.example \
     -DartifactId=my-jakarta-app \
-    -Dversion=1.0.0
+    -Dversion=1.0.0-SNAPSHOT
 ```
 
 **Powershell**
@@ -26,9 +28,11 @@ mvn archetype:generate `
     -DarchetypeGroupId="com.apuntesdejava" `
     -DarchetypeArtifactId="jakarta-ee-essentials" `
     -DarchetypeVersion="0.0.3-SNAPSHOT" `
+    -DjakartaProfile="core" `
+    -DjakartaModule="web" `
     -DgroupId="com.example" `
     -DartifactId="my-jakarta-app" `
-    -Dversion="1.0.0"
+    -Dversion="1.0.0-SNAPSHOT"
 ```
 
 
