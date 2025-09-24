@@ -25,6 +25,7 @@ under the License.
                       name="${artifactId}">
 
     <fileSets>
+        <!-- Wrapper scripts present in archetype-resources root -->
         <fileSet filtered="false" packaged="false">
             <directory/>
             <includes>
@@ -45,32 +46,36 @@ under the License.
                 <include>maven-wrapper.properties</include>
             </includes>
         </fileSet>
+
+        <!-- Java sources go under the chosen package -->
         <fileSet filtered="true" packaged="true">
             <directory>src/main/java</directory>
-            <!--
-            #if( $jakartaModule == "ejb" )
-            <excludes>
-                <exclude>**/*Resource.java</exclude>
-            </excludes>
-            #end
-            #if( $jakartaModule == "web" )
             <includes>
-                <include>**/*Resource.java</include>
+                <include>**/*.java</include>
             </includes>
-            #end
-            -->
         </fileSet>
+
+        <!-- Explicitly list resources to avoid duplicate directory creation warnings -->
         <fileSet filtered="true" packaged="false">
             <directory>src/main/resources</directory>
+            <includes>
+                <include>META-INF/beans.xml</include>
+                <include>META-INF/persistence.xml</include>
+            </includes>
         </fileSet>
+
+        <!-- Web resources only when module = web (left as plain files; no packaging) -->
         <!-- #if( $jakartaModule == "web" ) -->
         <fileSet filtered="true" packaged="false">
             <directory>src/main/webapp</directory>
+            <includes>
+                <include>index.html</include>
+                <include>WEB-INF/web.xml</include>
+            </includes>
         </fileSet>
         <!-- #end -->
-        <fileSet filtered="true" packaged="true">
-            <directory>src/test/java</directory>
-        </fileSet>
+
+        <!-- No src/test/java templates provided currently -->
     </fileSets>
     <requiredProperties>
         <requiredProperty key="jakartaProfile">

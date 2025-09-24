@@ -3,4 +3,12 @@
 **/.idea
 **/nbactions.xml
 **/*.iml
+**/.project
+**/.classpath
+**/.settings
+# External tool builders
+.externalToolBuilders/
 
+# Operating system generated files
+.DS_Store
+Thumbs.db
