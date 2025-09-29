@@ -46,7 +46,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          server-id: ossrh
+          server-id: central
           server-username: OSSRH_USERNAME
           server-password: OSSRH_TOKEN
 
@@ -74,7 +74,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          server-id: ossrh
+          server-id: central
           server-username: OSSRH_USERNAME
           server-password: OSSRH_TOKEN
 
@@ -97,11 +97,11 @@ jobs:
           # Actualiza el pom.xml en el runner a la versión de release
           mvn versions:set -DnewVersion=$RELEASE_VERSION -DgenerateBackupPoms=false
 
-      - name: Deploy Release to Sonatype Central
-        run: mvn -B deploy -P release --file pom.xml
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+#      - name: Deploy Release to Sonatype Central
+#        run: mvn -B deploy -P release --file pom.xml
+#        env:
+#          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+#          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
 
       - name: Create GitHub Release and Tag
         uses: softprops/action-gh-release@v2
