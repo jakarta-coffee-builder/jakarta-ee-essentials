@@ -25,11 +25,19 @@ under the License.
                       name="${artifactId}">
 
     <fileSets>
-        <fileSet filtered="true" packaged="false">
-            <directory>.</directory>
+        <!-- Wrapper scripts present in archetype-resources root -->
+        <fileSet filtered="false" packaged="false">
+            <directory/>
             <includes>
                 <include>mvnw</include>
                 <include>mvnw.cmd</include>
+                <include>.gitignore</include>
+            </includes>
+        </fileSet>
+        <fileSet filtered="false" packaged="false">
+            <directory>.mvn</directory>
+            <includes>
+                <include>jvm.config</include>
             </includes>
         </fileSet>
         <fileSet filtered="false" packaged="false">
@@ -38,18 +46,36 @@ under the License.
                 <include>maven-wrapper.properties</include>
             </includes>
         </fileSet>
+
+        <!-- Java sources go under the chosen package -->
         <fileSet filtered="true" packaged="true">
             <directory>src/main/java</directory>
+            <includes>
+                <include>**/*.java</include>
+            </includes>
         </fileSet>
+
+        <!-- Explicitly list resources to avoid duplicate directory creation warnings -->
         <fileSet filtered="true" packaged="false">
             <directory>src/main/resources</directory>
+            <includes>
+                <include>META-INF/beans.xml</include>
+                <include>META-INF/persistence.xml</include>
+            </includes>
         </fileSet>
+
+        <!-- Web resources only when module = web (left as plain files; no packaging) -->
+        <!-- #if( $jakartaModule == "web" ) -->
         <fileSet filtered="true" packaged="false">
             <directory>src/main/webapp</directory>
+            <includes>
+                <include>index.html</include>
+                <include>WEB-INF/web.xml</include>
+            </includes>
         </fileSet>
-        <fileSet filtered="true" packaged="true">
-            <directory>src/test/java</directory>
-        </fileSet>
+        <!-- #end -->
+
+        <!-- No src/test/java templates provided currently -->
     </fileSets>
     <requiredProperties>
         <requiredProperty key="jakartaProfile">
@@ -66,5 +92,19 @@ under the License.
             <required>true</required>
             <expression>^(10.0.0|11.0.0)$</expression>
         </requiredProperty>
+        <requiredProperty key="jakartaModule">
+            <defaultValue>web</defaultValue>
+            <type>string</type>
+            <description>Module</description>
+            <required>true</required>
+            <expression>^(web|ejb)$</expression>
+        </requiredProperty>
+        <requiredProperty key="apiBasePath">
+            <defaultValue>/api</defaultValue>
+            <description>Base path for the JAX-RS application (e.g., /api, /rest)</description>
+            <type>string</type>
+            <required>true</required>
+        </requiredProperty>
+
     </requiredProperties>
 </archetype-descriptor>

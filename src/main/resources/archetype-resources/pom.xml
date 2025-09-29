@@ -6,17 +6,30 @@
     <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
     <version>${version}</version>
+    #if( $jakartaModule == "web" )
     <packaging>war</packaging>
+    #elseif( $jakartaModule == "ejb" )
+    <packaging>ejb</packaging>
+    #end
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        #if( $jakartaVersion == "11.0.0" )
         <maven.compiler.release>17</maven.compiler.release>
-        #elseif( $jakartaVersion == "10.0.0" )
-        <maven.compiler.release>11</maven.compiler.release>
-        #end
-        <junit.version>5.11.4</junit.version>
+        <junit.version>5.13.4</junit.version>
     </properties>
+
+    #if( $jakartaVersion == "11.0.0" and $jakartaProfile != "full" )
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>2.0.1</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    #end
 
     <dependencies>
         <dependency>
@@ -28,37 +41,15 @@
             #elseif( $jakartaProfile == "full" )
             <artifactId>jakarta.jakartaee-api</artifactId>
             #end
+
             #if( $jakartaVersion == "10.0.0" )
             <version>10.0.0</version>
             #elseif( $jakartaVersion == "11.0.0" )
-            #if( $jakartaProfile == "core" )
             <version>11.0.0</version>
-            #else
-            <version>11.0.0-M4</version>
-            #end
             #end
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.eclipse.microprofile</groupId>
-            <artifactId>microprofile</artifactId>
-            #if( $jakartaVersion == "10.0.0" )
-            <version>6.1</version>
-            #elseif( $jakartaVersion == "11.0.0" )
-            <version>7.0</version>
-            #end
-            <scope>provided</scope>
-            <type>pom</type>
-        </dependency>
-
-        #if( $jakartaProfile == "core" )
-        <dependency>
-            <groupId>jakarta.inject</groupId>
-            <artifactId>jakarta.inject-api</artifactId>
-            <version>2.0.1</version>
-        </dependency>
-        #end
         <!-- TEST -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -75,11 +66,40 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
+            #if( $jakartaModule == "web" )
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                            <filtering>true</filtering>
+                            <includes>
+                                <include>**/web.xml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            #elseif( $jakartaModule == "ejb" )
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <jarName>${project.name}</jarName>
+                    <ejbVersion>4.0</ejbVersion>
+                </configuration>
+            </plugin>
+            #end
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.4</version>
             </plugin>
         </plugins>
     </build>
