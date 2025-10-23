@@ -14,8 +14,12 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        #if( $jakartaVersion == "10.0.0" )
         <maven.compiler.release>17</maven.compiler.release>
-        <junit.version>5.13.4</junit.version>
+        #else
+        <maven.compiler.release>21</maven.compiler.release>
+        #end
+        <junit.version>6.0.0</junit.version>
     </properties>
 
     #if( $jakartaVersion == "11.0.0" and $jakartaProfile != "full" )
