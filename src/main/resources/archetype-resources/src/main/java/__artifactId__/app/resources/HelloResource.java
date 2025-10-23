@@ -1,4 +1,4 @@
-package ${package}.resources;
+package ${package}.${artifactId}.app.resources;
 
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
