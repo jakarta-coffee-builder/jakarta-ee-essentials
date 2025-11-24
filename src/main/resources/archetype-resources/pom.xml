@@ -19,21 +19,8 @@
         #else
         <maven.compiler.release>21</maven.compiler.release>
         #end
-        <junit.version>6.0.0</junit.version>
+        <junit.version>6.0.1</junit.version>
     </properties>
-
-    #if( $jakartaVersion == "11.0.0" and $jakartaProfile != "full" )
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>jakarta.inject</groupId>
-                <artifactId>jakarta.inject-api</artifactId>
-                <version>2.0.1</version>
-                <scope>provided</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-    #end
 
     <dependencies>
         <dependency>
@@ -76,7 +63,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>3.5.0</version>
                 <configuration>
                     <webResources>
                         <resource>
@@ -93,7 +80,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.3.0</version>
                 <configuration>
                     <jarName>${project.name}</jarName>
                     <ejbVersion>4.0</ejbVersion>
