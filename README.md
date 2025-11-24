@@ -13,7 +13,7 @@ To generate a new project using this archetype, run the following command in you
 mvn archetype:generate \
     -DarchetypeGroupId=com.apuntesdejava \
     -DarchetypeArtifactId=jakarta-ee-essentials \
-    -DarchetypeVersion=0.0.3-SNAPSHOT \
+    -DarchetypeVersion=0.0.5 \
     -DjakartaProfile=core \
     -DjakartaModule=web \
     -DgroupId=com.example \
@@ -27,7 +27,7 @@ mvn archetype:generate \
 mvn archetype:generate `
     -DarchetypeGroupId="com.apuntesdejava" `
     -DarchetypeArtifactId="jakarta-ee-essentials" `
-    -DarchetypeVersion="0.0.3-SNAPSHOT" `
+    -DarchetypeVersion="0.0.5" `
     -DjakartaProfile="core" `
     -DjakartaModule="web" `
     -DgroupId="com.example" `
