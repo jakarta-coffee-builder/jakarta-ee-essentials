@@ -6,7 +6,7 @@
 
     <groupId>com.apuntesdejava</groupId>
     <artifactId>jakarta-ee-essentials</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
     <packaging>maven-archetype</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -28,9 +28,9 @@
     </developers>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>17</maven.compiler.release>
-        <java.version>17</java.version>
-        <java.version.release>17</java.version.release>
+        <maven.compiler.release>21</maven.compiler.release>
+        <java.version>21</java.version>
+        <java.version.release>21</java.version.release>
     </properties>
     <scm>
         <connection>scm:git:git://github.com/jakarta-coffee-builder/jakarta-ee-essentials.git</connection>
@@ -67,7 +67,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.3.1</version>
+                    <version>3.4.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
