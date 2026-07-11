@@ -5,7 +5,12 @@ on:
   push:
     branches:
       - main
+      - master
       - develop
+
+env:
+  JAVA_VERSION: '21'
+  MAVEN_ARGS: --batch-mode --no-transfer-progress --file pom.xml
 
 jobs:
   build:
@@ -15,22 +20,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
-
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+          cache: maven
 
       - name: Build with Maven
-        run: mvn -B verify --file pom.xml
+        run: mvn $MAVEN_ARGS verify
 
   deploy-snapshot:
     name: Deploy SNAPSHOT to Sonatype
@@ -41,17 +39,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
+          cache: maven
           server-id: central
           server-username: OSSRH_USERNAME
           server-password: OSSRH_TOKEN
 
+      - name: Validate SNAPSHOT version
+        run: |
+          CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "Current version: $CURRENT_VERSION"
+          if [[ "$CURRENT_VERSION" != *-SNAPSHOT ]]; then
+            echo "::error::develop must use a -SNAPSHOT version before deploying snapshots."
+            exit 1
+          fi
+
       - name: Deploy SNAPSHOT to Sonatype Central
-        run: mvn -B deploy --file pom.xml
+        run: mvn $MAVEN_ARGS deploy
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
@@ -59,7 +67,7 @@ jobs:
   release:
     name: Release to Sonatype Central
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     permissions:
       contents: write # Permiso para crear releases
@@ -69,11 +77,12 @@ jobs:
         with:
           fetch-depth: 0 # Necesario para el historial completo para generar las notas de la release
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
+          cache: maven
           server-id: central
           server-username: OSSRH_USERNAME
           server-password: OSSRH_TOKEN
@@ -89,19 +98,23 @@ jobs:
         run: |
           # Extrae la versión del POM, ej: "1.0.0-SNAPSHOT"
           CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          if [[ "$CURRENT_VERSION" != *-SNAPSHOT ]]; then
+            echo "::error::Release branches must receive a -SNAPSHOT version so the workflow can derive the release version."
+            exit 1
+          fi
           # Quita "-SNAPSHOT" para obtener la versión de release, ej: "1.0.0"
           RELEASE_VERSION=${CURRENT_VERSION%-SNAPSHOT}
           echo "Current version: $CURRENT_VERSION"
           echo "Release version: $RELEASE_VERSION"
           echo "RELEASE_VERSION=${RELEASE_VERSION}" >> $GITHUB_ENV
           # Actualiza el pom.xml en el runner a la versión de release
-          mvn versions:set -DnewVersion=$RELEASE_VERSION -DgenerateBackupPoms=false
+          mvn $MAVEN_ARGS versions:set -DnewVersion=$RELEASE_VERSION -DgenerateBackupPoms=false
 
-#      - name: Deploy Release to Sonatype Central
-#        run: mvn -B deploy -P release --file pom.xml
-#        env:
-#          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-#          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+      - name: Deploy Release to Sonatype Central
+        run: mvn $MAVEN_ARGS deploy -P release
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
 
       - name: Create GitHub Release and Tag
         uses: softprops/action-gh-release@v2

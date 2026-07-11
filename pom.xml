@@ -6,7 +6,7 @@
 
     <groupId>com.apuntesdejava</groupId>
     <artifactId>jakarta-ee-essentials</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.7-SNAPSHOT</version>
     <packaging>maven-archetype</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -28,9 +28,9 @@
     </developers>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>17</maven.compiler.release>
-        <java.version>17</java.version>
-        <java.version.release>17</java.version.release>
+        <maven.compiler.release>21</maven.compiler.release>
+        <java.version>21</java.version>
+        <java.version.release>21</java.version.release>
     </properties>
     <scm>
         <connection>scm:git:git://github.com/jakarta-coffee-builder/jakarta-ee-essentials.git</connection>
@@ -42,10 +42,6 @@
             <id>central</id>
             <url>https://central.sonatype.com/repository/maven-snapshots/</url>
         </snapshotRepository>
-        <repository>
-            <id>central</id>
-            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-        </repository>
     </distributionManagement>
     <build>
         <extensions>
@@ -67,7 +63,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.3.1</version>
+                    <version>3.5.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
@@ -76,6 +72,11 @@
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>3.1.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>2.21.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -105,7 +106,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.3.1</version>
+                        <version>3.4.0</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -132,10 +133,11 @@
                     <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
-                        <version>0.9.0</version>
+                        <version>0.11.0</version>
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
                             <waitUntil>validated</waitUntil>
                         </configuration>
                     </plugin>

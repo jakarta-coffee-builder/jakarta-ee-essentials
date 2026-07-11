@@ -13,7 +13,7 @@ To generate a new project using this archetype, run the following command in you
 mvn archetype:generate \
     -DarchetypeGroupId=com.apuntesdejava \
     -DarchetypeArtifactId=jakarta-ee-essentials \
-    -DarchetypeVersion=0.0.5 \
+    -DarchetypeVersion=0.0.7 \
     -DjakartaProfile=core \
     -DjakartaModule=web \
     -DgroupId=com.example \
@@ -27,7 +27,7 @@ mvn archetype:generate \
 mvn archetype:generate `
     -DarchetypeGroupId="com.apuntesdejava" `
     -DarchetypeArtifactId="jakarta-ee-essentials" `
-    -DarchetypeVersion="0.0.5" `
+    -DarchetypeVersion="0.0.7" `
     -DjakartaProfile="core" `
     -DjakartaModule="web" `
     -DgroupId="com.example" `
@@ -57,24 +57,29 @@ To deploy a release version to Sonatype, which synchronizes with Maven Central, 
 Once your environment is set up, run the following command:
 
 ```shell
+mvn versions:set -DnewVersion=<release-version> -DgenerateBackupPoms=false
 mvn clean deploy -P release
 ```
 
-This command will sign the artifacts and upload them to the repository.
+This command will sign the artifacts and publish them through the Sonatype Central Portal.
 
 ## Continuous Integration (GitHub Actions)
 
 This project uses GitHub Actions to automate the build and deployment processes. The workflow is defined in `.github/workflows/maven-ci-cd.yml` and includes the following jobs:
 
+The workflow expects these repository secrets to be configured: `OSSRH_USERNAME`, `OSSRH_TOKEN`, `GPG_PRIVATE_KEY`, and `GPG_PASSPHRASE`.
+
 - **Build and Test**:
-  - Triggered on every push to the `main` and `develop` branches.
-  - It checks out the code, sets up JDK 17, and runs `mvn verify` to ensure the project builds successfully.
+  - Triggered on every push to the `develop`, `main`, and `master` branches.
+  - It checks out the code, sets up JDK 21, and runs `mvn verify` to ensure the project builds successfully.
 
 - **Deploy SNAPSHOT to Sonatype**:
   - Triggered on every push to the `develop` branch, after the `Build and Test` job succeeds.
-  - It deploys a `SNAPSHOT` version to Sonatype's snapshot repository.
+  - It requires the Maven project version to end with `-SNAPSHOT`.
+  - It deploys the artifact to Sonatype's snapshot repository.
 
 - **Release to Sonatype Central**:
-  - Triggered on every push to the `main` branch, after the `Build and Test` job succeeds.
-  - It creates a release version (e.g., `1.0.0` from `1.0.0-SNAPSHOT`), signs the artifacts, and deploys them to Sonatype for synchronization with Maven Central.
+  - Triggered on every push to the `main` or `master` branch, after the `Build and Test` job succeeds.
+  - It requires the Maven project version to end with `-SNAPSHOT`.
+  - It creates a release version in the GitHub Actions runner (e.g., `1.0.0` from `1.0.0-SNAPSHOT`), signs the artifacts, and publishes them to Sonatype Central.
   - Finally, it creates a new release tag on GitHub.
