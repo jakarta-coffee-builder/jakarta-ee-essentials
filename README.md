@@ -69,6 +69,7 @@ This project uses GitHub Actions to automate the build and deployment processes.
 
 The workflow expects these repository secrets to be configured: `OSSRH_USERNAME`, `OSSRH_TOKEN`, `GPG_PRIVATE_KEY`, and `GPG_PASSPHRASE`.
 Alternatively, the signing secrets can be named exactly as Maven reads them: `MAVEN_GPG_KEY` and `MAVEN_GPG_PASSPHRASE`.
+For compatibility with older workflow configuration, `GPG_PASSPHARSE` is also accepted, but `GPG_PASSPHRASE` is the recommended spelling.
 Release signing uses the Bouncy Castle signer instead of the `gpg` executable so GitHub Actions does not need `pinentry`.
 
 - **Build and Test**:

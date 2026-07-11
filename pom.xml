@@ -96,6 +96,8 @@
                         <configuration>
                             <signer>bc</signer>
                             <bestPractices>true</bestPractices>
+                            <keyEnvName>MAVEN_GPG_KEY</keyEnvName>
+                            <passphraseEnvName>MAVEN_GPG_PASSPHRASE</passphraseEnvName>
                         </configuration>
                         <executions>
                             <execution>
