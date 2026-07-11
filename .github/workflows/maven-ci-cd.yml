@@ -104,13 +104,29 @@ jobs:
           # Actualiza el pom.xml en el runner a la versión de release
           mvn $MAVEN_ARGS versions:set -DnewVersion=$RELEASE_VERSION -DgenerateBackupPoms=false
 
+      - name: Validate release secrets
+        run: |
+          missing=0
+          for secret_name in OSSRH_USERNAME OSSRH_TOKEN MAVEN_GPG_KEY MAVEN_GPG_PASSPHRASE; do
+            if [[ -z "${!secret_name}" ]]; then
+              echo "::error::$secret_name is empty. Configure the matching repository secret before publishing a release."
+              missing=1
+            fi
+          done
+          exit $missing
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+          MAVEN_GPG_KEY: ${{ secrets.MAVEN_GPG_KEY || secrets.GPG_PRIVATE_KEY }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE || secrets.GPG_PASSPHRASE }}
+
       - name: Deploy Release to Sonatype Central
         run: mvn $MAVEN_ARGS deploy -P release
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
-          MAVEN_GPG_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          MAVEN_GPG_KEY: ${{ secrets.MAVEN_GPG_KEY || secrets.GPG_PRIVATE_KEY }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE || secrets.GPG_PASSPHRASE }}
 
       - name: Create GitHub Release and Tag
         uses: softprops/action-gh-release@v2
