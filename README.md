@@ -68,7 +68,8 @@ This command will sign the artifacts and publish them through the Sonatype Centr
 This project uses GitHub Actions to automate the build and deployment processes. The workflow is defined in `.github/workflows/maven-ci-cd.yml` and includes the following jobs:
 
 The workflow expects these repository secrets to be configured: `OSSRH_USERNAME`, `OSSRH_TOKEN`, `GPG_PRIVATE_KEY`, and `GPG_PASSPHRASE`.
-`GPG_PRIVATE_KEY` is passed to the Maven GPG Plugin as `MAVEN_GPG_KEY`, and release signing uses the Bouncy Castle signer instead of the `gpg` executable so GitHub Actions does not need `pinentry`.
+Alternatively, the signing secrets can be named exactly as Maven reads them: `MAVEN_GPG_KEY` and `MAVEN_GPG_PASSPHRASE`.
+Release signing uses the Bouncy Castle signer instead of the `gpg` executable so GitHub Actions does not need `pinentry`.
 
 - **Build and Test**:
   - Triggered on every push to the `develop`, `main`, and `master` branches.
