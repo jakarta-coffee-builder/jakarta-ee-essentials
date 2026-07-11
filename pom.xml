@@ -6,7 +6,7 @@
 
     <groupId>com.apuntesdejava</groupId>
     <artifactId>jakarta-ee-essentials</artifactId>
-    <version>0.0.6-SNAPSHOT</version>
+    <version>0.0.7-SNAPSHOT</version>
     <packaging>maven-archetype</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -42,10 +42,6 @@
             <id>central</id>
             <url>https://central.sonatype.com/repository/maven-snapshots/</url>
         </snapshotRepository>
-        <repository>
-            <id>central</id>
-            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-        </repository>
     </distributionManagement>
     <build>
         <extensions>
@@ -76,6 +72,11 @@
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>3.1.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>2.21.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -136,6 +137,7 @@
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
                             <waitUntil>validated</waitUntil>
                         </configuration>
                     </plugin>
